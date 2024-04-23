@@ -12,8 +12,9 @@ const point = document.getElementById('point');
 
 let result;
 let option;
-let numone = "0";
-let numtwo = "0";
+let numone = "";
+let numtwo = null;
+let firstTime = true;
 const Operations={
     SUM:"sum",
     SUBS:"substract",
@@ -24,76 +25,116 @@ const Operations={
 
 
 
-const sumfunction=()=> {
-    
-    option = Operations.SUM;
-    numtwo = numone; 
+const sumfunction = () => {
+    if (option && numone) {
+        equalsfunction(); 
+    }
+    option = Operations.SUM; 
+    if (!numtwo) {
+        numtwo = numone; 
+    }
     numone = ""; 
+    ajustarTamanoFuente();
 }
 const substractfunction=()=>{
-    option = Operations.SUBS;
-    numtwo = numone;
-    numone = "";
+    if (option && numone) {
+        equalsfunction(); 
+        option = Operations.SUBS; 
+    }
+    if (!numtwo) {
+        numtwo = numone; 
+    }
+    numone = ""; 
+    ajustarTamanoFuente();
 
 }
 const multiplicationfunction=()=>{
-    option = Operations.MULT;
-    numtwo = numone;
+    if (option && numone) {
+        equalsfunction(); 
+    }
+    option = Operations.MULT; 
+    if (!numtwo) {
+        numtwo = numone; 
+    }
     numone = ""; 
+    ajustarTamanoFuente();
 }
 const divisionfunction=()=>{
-    option=Operations.DIV;
-    numtwo = numone; 
+    if (option && numone) {
+        equalsfunction(); 
+    }
+    option = Operations.DIV; 
+    if (!numtwo) {
+        numtwo = numone; 
+    }
     numone = ""; 
+    ajustarTamanoFuente();
 }
 const restFunction =()=>{
-    option=Operations.REST;
-    numtwo = numone;
+    if (option && numone) {
+        equalsfunction(); 
+    }
+    option = Operations.REST; 
+    if (!numtwo) {
+        numtwo = numone; 
+    }
     numone = ""; 
+    ajustarTamanoFuente();
 }
 const clear=()=> {
+    option = null;
     numone = "";
     numtwo = "";
     resultElement.textContent = "0";
+    result=0;
+    ajustarTamanoFuente();
 }
 
 function equalsfunction() {
+    ajustarTamanoFuente();
     switch (option){
         case Operations.SUM:
             result = parseFloat(numtwo) + parseFloat(numone);
-            resultElement.textContent = result;
-            adjustFontSize();
-
+            ajustarTamanoFuente();
             break;
         case Operations.SUBS:
             result = parseFloat(numtwo) - parseFloat(numone);
-            resultElement.textContent = result;
-            adjustFontSize();
-            
+            ajustarTamanoFuente();
             break;
         case Operations.MULT:
             result = parseFloat(numtwo) * parseFloat(numone);
-            resultElement.textContent = result;
-            adjustFontSize();
+            ajustarTamanoFuente();
             break;
         case Operations.DIV:
-            
             result = parseFloat(numtwo) / parseFloat(numone);
-            
-            resultElement.textContent = result;
-            adjustFontSize();
+            ajustarTamanoFuente();
             break;
         case Operations.REST:
-            
             result = parseFloat(numtwo) % parseFloat(numone);
-            
-            resultElement.textContent = result;
-            adjustFontSize();
+            ajustarTamanoFuente();
             break;
         default:
             break;
     }
+    resultElement.textContent = result;
+        numtwo = result.toString();
+        numone = ""; 
+        option = null;
+        ajustarTamanoFuente();
 
+}
+function ajustarTamanoFuente() {
+    const result = document.getElementById('result');
+    const numero = result.textContent || result.innerText;
+
+    
+    if(numero.length >= 9){
+        result.style.fontSize = '180%';
+    }else if (numero.length >= 6 && numero.length <9) {
+        result.style.fontSize = '200%';
+    } else {
+        result.style.fontSize = '247%'; 
+    }
 }
 
 
@@ -112,6 +153,7 @@ numberButtons.forEach(button => {
         resultElement.textContent = numone; 
             
         }
+        ajustarTamanoFuente();
         return;
         
     });
@@ -120,12 +162,21 @@ point.addEventListener('click', () => {
     if (!numone.includes('.')) { 
         numone += '.'; 
         resultElement.textContent = numone; 
+        ajustarTamanoFuente();
     }
+    
 });
 moreless.addEventListener('click',()=> {
+    if(numtwo === ""){
+        numone = numone * -1;
+        resultElement.textContent = numone;
+    }else{
+        result = result * -1;
+        resultElement.textContent = result;
+    }
+    ajustarTamanoFuente();
     
-    result=result*-1;
-    resultElement.textContent = result;
+    
 });
 
 
@@ -137,4 +188,5 @@ substraction.addEventListener('click',substractfunction);
 addition.addEventListener('click', sumfunction);
 equal.addEventListener('click', equalsfunction);
 ac.addEventListener('click', clear);
+ajustarTamanoFuente();
 clear();
