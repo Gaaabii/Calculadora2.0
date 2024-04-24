@@ -38,9 +38,9 @@ const sumfunction = () => {
 }
 const substractfunction=()=>{
     if (option && numone) {
-        equalsfunction(); 
-        option = Operations.SUBS; 
+        equalsfunction();   
     }
+    option = Operations.SUBS; 
     if (!numtwo) {
         numtwo = numone; 
     }
@@ -166,17 +166,15 @@ point.addEventListener('click', () => {
     }
     
 });
-moreless.addEventListener('click',()=> {
-    if(numtwo === ""){
-        numone = numone * -1;
-        resultElement.textContent = numone;
-    }else{
-        result = result * -1;
-        resultElement.textContent = result;
+moreless.addEventListener('click', () => {
+    if (numone !== "") { 
+        numone = numone * -1; 
+        resultElement.textContent = numone; 
+    } else if (numtwo !== null) { 
+        numtwo = numtwo * -1; 
+        resultElement.textContent = numtwo;
     }
-    ajustarTamanoFuente();
-    
-    
+    ajustarTamanoFuente(); 
 });
 
 
